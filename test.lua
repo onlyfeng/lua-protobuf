@@ -242,6 +242,7 @@ function _G.test_extend()
 end
 
 function _G.test_type()
+   pb.clear "not-exists"
    check_load [[
    message TestTypes {
       optional double   dv    = 1;
@@ -374,6 +375,8 @@ function _G.test_default()
          repeated int32 array = 18;
       } ]]
 
+   local _, _, _, _, rep = pb.field("TestDefault", "foo")
+   eq(rep, "optional")
    table_eq(copy_no_meta(pb.defaults "TestDefault"), {
             defaulted_int = 0,
             defaulted_bool = false,
@@ -904,11 +907,16 @@ function _G.test_load()
    do
       local old = pb.state(nil)
       protoc.reload()
+      assert(protoc:load [[ message Test_Load1 { optional int32 t = 1; } ]])
+      assert(pb.type "Test_Load1")
+      assert(protoc:load [[ message Test_Load2 { optional int32 t = 2; } ]])
+      assert(pb.type "Test_Load2")
+      protoc.reload()
       local p = protoc.new()
-      assert(p:load [[ message Test1 { optional int32 t = 1; } ]])
-      assert(pb.type "Test1")
-      assert(p:load [[ message Test2 { optional int32 t = 2; } ]])
-      assert(pb.type "Test2")
+      assert(p:load [[ message Test_Load1 { optional int32 t = 1; } ]])
+      assert(pb.type "Test_Load1")
+      assert(p:load [[ message Test_Load2 { optional int32 t = 2; } ]])
+      assert(pb.type "Test_Load2")
       pb.state(old)
    end
 
