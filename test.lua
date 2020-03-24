@@ -813,7 +813,7 @@ function _G.test_buffer()
    eq(#b, 6)
 
    fail("integer format error: 'foo'", function() pb.pack("v", "foo") end)
-   if _VERSION == "Lua 5.3" then
+   if _VERSION == "Lua 5.3" or _VERSION == "Lua 5.4" then
       fail("integer format error", function() pb.pack("v", 1e308) end)
    else
       fail("number has no integer representation", function() pb.pack("v", 1e308) end)
@@ -1104,19 +1104,19 @@ function _G.test_load()
    buf:pack("v(v(vsv(vvvv)))",
             s(1), s(4), s(1), "load_test",
             s(2), v(3), 1, v(4), 1)
-   eq(pb.load(buf:result()), true)
+   eq(pb.load(buf:result()), false)
 
    buf:reset()
    buf:pack("v(v(vsv(vvvvvv)))",
             s(1), s(4), s(1), "load_test",
             s(2), v(3), 1, v(4), 1, v(5), 11)
-   eq(pb.load(buf:result()), true)
+   eq(pb.load(buf:result()), false)
 
    buf:reset()
    buf:pack("v(v(vsv(vvvv)))",
             s(1), s(4), s(1), "load_test",
             s(6), v(3), 1, v(4), 1)
-   eq(pb.load(buf:result()), true)
+   eq(pb.load(buf:result()), false)
 
    buf:reset()
    buf:pack("v(v(v(vx)))", s(1), s(4), s(6), v(3), -1)

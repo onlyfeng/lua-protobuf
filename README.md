@@ -6,6 +6,8 @@
 
 Urho3d集成说明：https://note.youdao.com/ynoteshare1/index.html?id=20d06649fab669371140256abd7a362b&type=note
 
+Unreal SLua集成：https://github.com/zengdelang/slua-unreal-pb
+
 ToLua集成说明：http://changxianjie.com/tolua集成lua-protobuf/
 
 QQ群：485016061 [![lua-protobuf1交流群](https://pub.idqqimg.com/wpa/images/group.png)](https://shang.qq.com/wpa/qunwpa?idkey=d7e2973604a723c4f77d0a837df39be26e15be2c2ec29d5ebfdb64f94e74e6ae)
@@ -315,8 +317,8 @@ These options are supported currently:
 | ----------------------- | ------------------------------------------------------------ |
 | `enum_as_name`          | set value to enum name when decode a enum **(default)**      |
 | `enum_as_value`         | set value to enum value when decode a enum                   |
-| `int64_as_number`       | set value to integer when it fit int32, otherwise return a number **(default)** |
-| `int64_as_string`       | same as above, but when it not fit int32, return a string instead |
+| `int64_as_number`       | set value to integer when it fit into uint32, otherwise return a number **(default)** |
+| `int64_as_string`       | same as above, but return a string instead |
 | `int64_as_hexstring`    | same as above, but return a hexadigit string instead         |
 | `no_default_values`     | do not default values for decoded message table **(default)** |
 | `use_default_values`    | set default values by copy values from default table before decode |

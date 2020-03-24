@@ -217,10 +217,43 @@ function Lexer:quote(opt)
    end
 end
 
+function Lexer:structure(opt)
+   self:whitespace()
+   if not self:test "{" then
+      return self:opterror(opt, 'opening curly brace expected')
+   end
+   local t = {}
+   while not self:test "}" do
+      local ident = self:full_ident "field name"     -- TODO: full_ident?
+      self:test ":"
+      local value = self:constant()
+      self:test ","
+      self:line_end "opt"
+      t[ident] = value
+   end
+   return t
+end
+
+function Lexer:array(opt)
+   self:whitespace()
+   if not self:test "%[" then
+      return self:opterror(opt, 'opening square bracket expected')
+   end
+   local t = {}
+   while not self:test "]" do
+      local value = self:constant()
+      self:test ","
+      t[#t + 1] = value
+   end
+   return t
+end
+
 function Lexer:constant(opt)
    local c = self:full_ident('constant', 'opt') or
              self:number('opt') or
-             self:quote('opt')
+             self:quote('opt') or
+             self:structure('opt') or
+             self:array('opt')
    if not c and not opt then
       return self:error "constant expected"
    end
@@ -515,10 +548,11 @@ function msg_body:extensions(lex, info)
 end
 
 function msg_body:reserved(lex, info)
-   if lex:test '%a' then
+   lex:whitespace()
+   if not lex '^%d' then
       local rt = default(info, 'reserved_name')
       repeat
-         insert_tab(rt, lex:ident 'field name')
+         insert_tab(rt, (lex:quote()))
       until not lex:test ','
    else
       local rt = default(info, 'reserved_range')
@@ -560,6 +594,10 @@ function msg_body:oneof(lex, info)
       lex:line_end 'opt'
    end
    ot[index] = oneof
+end
+
+function msg_body:option(lex, info)
+   toplevel.option(self, lex, default(info, 'options'))
 end
 
 end
@@ -681,6 +719,10 @@ function svr_body:rpc(lex, info)
    lex:line_end "opt"
    local t = default(info, "method")
    insert_tab(t, rpc)
+end
+
+function svr_body:option(lex, info)
+   toplevel.option(self, lex, default(info, 'options'))     -- TODO: should be deeper in the info?
 end
 
 function svr_body.stream(_, lex)
@@ -1022,7 +1064,7 @@ if has_pb then
    ".protobufB\16DescriptorProtosH\1"
 
 function Parser.reload()
-   assert(pb.load(descriptor_pb))
+   assert(pb.load(descriptor_pb), "load descriptor msg failed")
 end
 
 local function do_compile(self, f, ...)
