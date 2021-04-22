@@ -1,6 +1,6 @@
 # Google protobuf support for Lua
 
-[![Build Status](https://travis-ci.org/starwing/lua-protobuf.svg?branch=master)](https://travis-ci.org/starwing/lua-protobuf)[![Coverage Status](https://coveralls.io/repos/github/starwing/lua-protobuf/badge.svg?branch=master)](https://coveralls.io/github/starwing/lua-protobuf?branch=master)
+[![Build Status](https://img.shields.io/github/workflow/status/starwing/lua-protobuf/CI)](https://github.com/starwing/lua-protobuf/actions?query=branch%3Amaster)[![Coverage Status](https://img.shields.io/coveralls/github/starwing/lua-protobuf)](https://coveralls.io/github/starwing/lua-protobuf?branch=master)
 
 English | [中文](https://github.com/starwing/lua-protobuf/blob/master/README.zh.md)
 
@@ -454,6 +454,7 @@ All routines in `pb.slice` module:
 | `s:delete()`              | none         | same as `s:reset()`, free it's content                       |
 | `tostring(s)`             | string       | return the string repr of the object                         |
 | `#s`                      | number       | returns the count of bytes can read in current view          |
+| `s:result([i[, j]])`      | String       | return the remaining bytes in current view                   |
 | `s:reset([...])`          | self         | reset object to another data                                 |
 | `s:level()`               | number       | returns the count of stored state                            |
 | `s:level(number)`         | p, i, j      | returns the informations of the `n`th stored state           |

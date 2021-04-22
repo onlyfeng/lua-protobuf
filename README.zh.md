@@ -1,6 +1,6 @@
 # 在Lua中操作Google protobuf格式数据
 
-[![Build Status](https://travis-ci.org/starwing/lua-protobuf.svg?branch=master)](https://travis-ci.org/starwing/lua-protobuf)[![Coverage Status](https://coveralls.io/repos/github/starwing/lua-protobuf/badge.svg?branch=master)](https://coveralls.io/github/starwing/lua-protobuf?branch=master)
+[![Build Status](https://img.shields.io/github/workflow/status/starwing/lua-protobuf/CI)](https://github.com/starwing/lua-protobuf/actions?query=branch%3Amaster)[![Coverage Status](https://img.shields.io/coveralls/github/starwing/lua-protobuf)](https://coveralls.io/github/starwing/lua-protobuf?branch=master)
 
 [English](https://github.com/starwing/lua-protobuf/blob/master/README.md) | 中文
 
@@ -13,6 +13,8 @@ Unreal SLua集成：https://github.com/zengdelang/slua-unreal-pb
 Unreal UnLua集成：https://github.com/hxhb/unlua-pb
 
 ToLua集成说明：[链接](http://changxianjie.gitee.io/unitypartner/2019/10/01/tolua中使用protobuf3—集成lua-protobuf/)
+
+xlua集成：[链接](https://github.com/91Act/build_xlua_with_libs)
 
 QQ群：485016061 [![lua-protobuf1交流群](https://pub.idqqimg.com/wpa/images/group.png)](https://shang.qq.com/wpa/qunwpa?idkey=d7e2973604a723c4f77d0a837df39be26e15be2c2ec29d5ebfdb64f94e74e6ae)
 
@@ -486,8 +488,9 @@ end
 | --------------- | ------- | --------------------------------------------- |
 | `slice.new(data[,i[,j]])` | Slice object | 创建一个新的 slice 对象 |
 | `s:delete()`              | none         | 和 `s:reset()`相同，重置并释放slice对象引用的内存 |
-| `tostring(s)`             | string       | 得到当前视图的二进制数据 |
+| `tostring(s)`             | string       | 返回slice的字符串表示信息 |
 | `#s`                      | number       | 得到当前视图还未读取的字节数 |
+| `s:result([i[, j]])` | String | 得到当前视图的二进制数据 |
 | `s:reset([data[,i[,j]]])` | self         | 将slice对象重置绑定另一个数据源 |
 | `s:level()`               | number       | 返回当前视图栈的深度 |
 | `s:level(number)`         | p, i, j      | 返回第n层视图栈的信息（读取位置、视图偏移） |
